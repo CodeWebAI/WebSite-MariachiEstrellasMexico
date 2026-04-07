@@ -64,7 +64,7 @@ export const SERVICES = [
 ]
 
 export const STATS = [
-  { value: '15+', label: 'Años de Experiencia' },
+  // { value: '15+', label: 'Años de Experiencia' }, // Eliminado a petición del usuario
   { value: '2,000+', label: 'Eventos Realizados' },
   { value: '10', label: 'Músicos Profesionales' },
   { value: '100%', label: 'Clientes Satisfechos' },
