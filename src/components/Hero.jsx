@@ -37,17 +37,16 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
         {/* Main Heading */}
-        <h1 className="animate-fade-in-up animation-delay-100 font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[1.1] mb-6">
-          La Esencia de{' '}
-          <span className="text-gradient-gold">México</span>
+        <h1 className="animate-fade-in-up animation-delay-100 font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.1] mb-6">
+          Haz tu Evento{' '}
+          <span className="text-gradient-gold">Inolvidable</span>
           <br />
-          en Cada Nota
+          con el Mejor Mariachi
         </h1>
 
         {/* Subtitle */}
-        <p className="animate-fade-in-up animation-delay-200 max-w-2xl mx-auto text-lg sm:text-xl text-midnight-200 leading-relaxed mb-10">
-          Más de 15 años llevando la tradición y el alma de la música mexicana
-          a los momentos más especiales de tu vida. Serenatas, bodas, XV años y más.
+        <p className="animate-fade-in-up animation-delay-200 max-w-2xl mx-auto text-lg sm:text-lg text-midnight-200 leading-relaxed mb-8">
+          Calidad musical, elegancia y puntualidad garantizadas. Lleva la experiencia definitiva a tu celebración.
         </p>
 
         {/* CTA Buttons */}
