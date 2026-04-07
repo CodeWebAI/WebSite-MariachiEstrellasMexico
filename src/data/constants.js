@@ -146,15 +146,15 @@ export const VIDEOS = [
 ]
 
 export const CONTACT_INFO = {
-  phone: '+52 555 123 4567',
-  whatsapp: '+52 555 123 4567',
-  email: 'contacto@mariachialma.mx',
+  phone: '5624236534',
+  whatsapp: '+52 5624236534',
+  email: 'bautistahernandezangeluriel3@gmail.com',
   address: 'Ciudad de México, CDMX',
   schedule: 'Lunes a Domingo: 8:00 AM - 12:00 AM',
   social: {
     facebook: 'https://facebook.com',
     instagram: 'https://instagram.com',
-    youtube: 'https://youtube.com',
+    youtube: 'https://youtube.com/@mariachidiamante.01?si=JHpDFpXyYhT4LUAI',
     tiktok: 'https://tiktok.com',
   },
 }

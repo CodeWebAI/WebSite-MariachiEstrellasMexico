@@ -7,6 +7,7 @@ import {
   Send,
   MessageCircle,
   CheckCircle,
+  X,
 } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
@@ -67,158 +68,287 @@ function ContactForm() {
     message: '',
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showSendOptions, setShowSendOptions] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
+  const getMinDate = () => {
+    const today = new Date()
+    const minDate = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000) // Agregar 3 días
+    const year = minDate.getFullYear()
+    const month = String(minDate.getMonth() + 1).padStart(2, '0')
+    const day = String(minDate.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    setIsSubmitting(true)
+    setShowSendOptions(true)
+  }
 
-    // Simulate form submission
+  const buildMessage = () => {
+    const eventTypeLabel = {
+      serenata: 'Serenata',
+      boda: 'Boda',
+      xv: 'XV Años',
+      corporativo: 'Evento Corporativo',
+      fiesta: 'Fiesta / Celebración',
+      otro: 'Otro',
+    }[formData.eventType] || formData.eventType
+
+    const dateFormatted = formData.date
+      ? new Date(formData.date).toLocaleDateString('es-MX')
+      : 'No especificada'
+
+    return `*Solicitud de Cotización*
+
+*Cliente:* ${formData.name}
+*Correo:* ${formData.email}
+*Teléfono:* ${formData.phone}
+*Tipo de Evento:* ${eventTypeLabel || 'No especificado'}
+*Fecha del Evento:* ${dateFormatted}
+
+*Detalles:*
+${formData.message}`
+  }
+
+  const sendViaEmail = () => {
+    setIsLoading(true)
+    const message = buildMessage()
+    const subject = `Solicitud de Cotización - ${formData.name}`
+    const emailBody = encodeURIComponent(message)
+    const emailLink = `mailto:${CONTACT_INFO.email}?subject=${encodeURIComponent(subject)}&body=${emailBody}`
+
+    window.location.href = emailLink
     setTimeout(() => {
-      setIsSubmitting(false)
+      setIsLoading(false)
       setIsSubmitted(true)
+      setShowSendOptions(false)
       setFormData({ name: '', email: '', phone: '', eventType: '', date: '', message: '' })
-
       setTimeout(() => setIsSubmitted(false), 5000)
-    }, 1500)
+    }, 500)
+  }
+
+  const sendViaWhatsApp = () => {
+    setIsLoading(true)
+    const message = buildMessage()
+    const phoneNumber = CONTACT_INFO.whatsapp.replace(/\s+/g, '')
+    const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+
+    window.open(whatsappLink, '_blank')
+    setTimeout(() => {
+      setIsLoading(false)
+      setIsSubmitted(true)
+      setShowSendOptions(false)
+      setFormData({ name: '', email: '', phone: '', eventType: '', date: '', message: '' })
+      setTimeout(() => setIsSubmitted(false), 5000)
+    }, 500)
   }
 
   const inputStyles =
     'w-full px-4 py-3.5 bg-white border border-midnight-200 rounded-xl text-midnight-800 placeholder:text-midnight-300 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-transparent transition-all duration-300 text-sm'
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid sm:grid-cols-2 gap-4">
+    <>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-midnight-700 mb-1.5">
+              Nombre Completo *
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              placeholder="Tu nombre"
+              className={inputStyles}
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-midnight-700 mb-1.5">
+              Correo Electrónico *
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              placeholder="tu@email.com"
+              className={inputStyles}
+            />
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="phone" className="block text-sm font-medium text-midnight-700 mb-1.5">
+              Teléfono *
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              placeholder="+52 555 123 4567"
+              className={inputStyles}
+            />
+          </div>
+          <div>
+            <label htmlFor="eventType" className="block text-sm font-medium text-midnight-700 mb-1.5">
+              Tipo de Evento
+            </label>
+            <select
+              id="eventType"
+              name="eventType"
+              value={formData.eventType}
+              onChange={handleChange}
+              className={inputStyles}
+            >
+              <option value="">Selecciona un evento</option>
+              <option value="serenata">Serenata</option>
+              <option value="boda">Boda</option>
+              <option value="xv">XV Años</option>
+              <option value="corporativo">Evento Corporativo</option>
+              <option value="fiesta">Fiesta / Celebración</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+        </div>
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-midnight-700 mb-1.5">
-            Nombre Completo *
+          <label htmlFor="date" className="block text-sm font-medium text-midnight-700 mb-1.5">
+            Fecha del Evento <span className="text-xs text-gold-600">(Mínimo 3 días de anticipación)</span>
           </label>
           <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
+            type="date"
+            id="date"
+            name="date"
+            value={formData.date}
             onChange={handleChange}
-            required
-            placeholder="Tu nombre"
+            min={getMinDate()}
             className={inputStyles}
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-midnight-700 mb-1.5">
-            Correo Electrónico *
+          <label htmlFor="message" className="block text-sm font-medium text-midnight-700 mb-1.5">
+            Mensaje / Detalles del Evento *
           </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
+          <textarea
+            id="message"
+            name="message"
+            value={formData.message}
             onChange={handleChange}
             required
-            placeholder="tu@email.com"
-            className={inputStyles}
+            rows={4}
+            placeholder="Cuéntanos sobre tu evento, ubicación, horario, canciones especiales..."
+            className={`${inputStyles} resize-none`}
           />
         </div>
-      </div>
-      <div className="grid sm:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-midnight-700 mb-1.5">
-            Teléfono *
-          </label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            placeholder="+52 555 123 4567"
-            className={inputStyles}
-          />
-        </div>
-        <div>
-          <label htmlFor="eventType" className="block text-sm font-medium text-midnight-700 mb-1.5">
-            Tipo de Evento
-          </label>
-          <select
-            id="eventType"
-            name="eventType"
-            value={formData.eventType}
-            onChange={handleChange}
-            className={inputStyles}
-          >
-            <option value="">Selecciona un evento</option>
-            <option value="serenata">Serenata</option>
-            <option value="boda">Boda</option>
-            <option value="xv">XV Años</option>
-            <option value="corporativo">Evento Corporativo</option>
-            <option value="fiesta">Fiesta / Celebración</option>
-            <option value="otro">Otro</option>
-          </select>
-        </div>
-      </div>
-      <div>
-        <label htmlFor="date" className="block text-sm font-medium text-midnight-700 mb-1.5">
-          Fecha del Evento
-        </label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          className={inputStyles}
-        />
-      </div>
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-midnight-700 mb-1.5">
-          Mensaje / Detalles del Evento *
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-          rows={4}
-          placeholder="Cuéntanos sobre tu evento, ubicación, horario, canciones especiales..."
-          className={`${inputStyles} resize-none`}
-        />
-      </div>
 
-      {/* Submit Button */}
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full py-4 bg-gradient-to-r from-gold-500 to-gold-600 text-midnight-900 font-bold rounded-xl hover:from-gold-400 hover:to-gold-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg hover:shadow-xl hover:shadow-gold-500/25 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2 text-base cursor-pointer"
-      >
-        {isSubmitting ? (
-          <>
-            <div className="w-5 h-5 border-2 border-midnight-900/30 border-t-midnight-900 rounded-full animate-spin" />
-            Enviando...
-          </>
-        ) : (
-          <>
-            <Send className="w-5 h-5" />
-            Enviar Solicitud
-          </>
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full py-4 bg-gradient-to-r from-gold-500 to-gold-600 text-midnight-900 font-bold rounded-xl hover:from-gold-400 hover:to-gold-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg hover:shadow-xl hover:shadow-gold-500/25 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2 text-base cursor-pointer"
+        >
+          {isLoading ? (
+            <>
+              <div className="w-5 h-5 border-2 border-midnight-900/30 border-t-midnight-900 rounded-full animate-spin" />
+              Enviando...
+            </>
+          ) : (
+            <>
+              <Send className="w-5 h-5" />
+              Enviar Solicitud
+            </>
+          )}
+        </button>
+
+        {/* Success Message */}
+        {isSubmitted && (
+          <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 animate-fade-in-up">
+            <CheckCircle className="w-5 h-5 flex-shrink-0" />
+            <p className="text-sm font-medium">
+              ¡Solicitud enviada correctamente! Nos pondremos en contacto contigo pronto.
+            </p>
+          </div>
         )}
-      </button>
+      </form>
 
-      {/* Success Message */}
-      {isSubmitted && (
-        <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 animate-fade-in-up">
-          <CheckCircle className="w-5 h-5 flex-shrink-0" />
-          <p className="text-sm font-medium">
-            ¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.
-          </p>
+      {/* Modal de opciones para enviar */}
+      {showSendOptions && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-scale-in">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-heading text-xl font-bold text-midnight-800">
+                Elige tu forma de contacto
+              </h3>
+              <button
+                onClick={() => setShowSendOptions(false)}
+                className="p-1 hover:bg-midnight-100 rounded-lg transition-colors cursor-pointer"
+                aria-label="Cerrar"
+              >
+                <X className="w-5 h-5 text-midnight-500" />
+              </button>
+            </div>
+
+            <p className="text-midnight-600 text-sm mb-6">
+              Selecciona cómo prefieres enviar tu solicitud de cotización:
+            </p>
+
+            {/* Opciones */}
+            <div className="space-y-3">
+              {/* Opción Email */}
+              <button
+                onClick={sendViaEmail}
+                disabled={isLoading}
+                className="w-full p-4 border-2 border-midnight-200 rounded-xl hover:border-gold-500 hover:bg-gold-50 transition-all duration-300 flex items-center gap-4 group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              >
+                <div className="w-12 h-12 rounded-lg bg-gold-100 flex items-center justify-center group-hover:bg-gold-200 transition-colors">
+                  <Mail className="w-6 h-6 text-gold-600" />
+                </div>
+                <div className="flex-1 text-left">
+                  <div className="font-semibold text-midnight-800">Vía Correo</div>
+                  <div className="text-xs text-midnight-500">{CONTACT_INFO.email}</div>
+                </div>
+              </button>
+
+              {/* Opción WhatsApp */}
+              <button
+                onClick={sendViaWhatsApp}
+                disabled={isLoading}
+                className="w-full p-4 border-2 border-[#25D366]/30 rounded-xl hover:border-[#25D366] hover:bg-[#25D366]/5 transition-all duration-300 flex items-center gap-4 group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              >
+                <div className="w-12 h-12 rounded-lg bg-[#25D366]/10 flex items-center justify-center group-hover:bg-[#25D366]/20 transition-colors">
+                  <MessageCircle className="w-6 h-6 text-[#25D366]" />
+                </div>
+                <div className="flex-1 text-left">
+                  <div className="font-semibold text-midnight-800">Vía WhatsApp</div>
+                  <div className="text-xs text-midnight-500">{CONTACT_INFO.whatsapp}</div>
+                </div>
+              </button>
+            </div>
+
+            {/* Botón Cancelar */}
+            <button
+              onClick={() => setShowSendOptions(false)}
+              className="w-full mt-4 py-2 text-midnight-600 font-medium hover:bg-midnight-100 rounded-lg transition-colors cursor-pointer"
+            >
+              Cancelar
+            </button>
+          </div>
         </div>
       )}
-    </form>
+    </>
   )
 }
 
