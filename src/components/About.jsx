@@ -2,6 +2,7 @@ import { Award, Users, Music, Star } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { STATS, TESTIMONIALS } from '../data/constants'
+import Carousel from './ui/Carousel'
 
 const ICONS = [Award, Users, Music, Star]
 
@@ -84,7 +85,8 @@ export default function About() {
             <p className="text-midnight-600 leading-relaxed text-base sm:text-lg">
               <span className="text-gold-600 font-heading text-2xl font-bold">Mariachi Alma de México</span>{' '}
               nació de la pasión por llevar la música tradicional mexicana a cada rincón.
-              Con más de 15 años de trayectoria, nos hemos consolidado como uno de los
+               Llevando en las notas musicales alegría y aprecio, con más de 10 años de trayectoria,
+              nos hemos consolidado como uno de los
               grupos de mariachi más reconocidos por nuestra calidad musical y profesionalismo.
             </p>
             <p className="text-midnight-500 leading-relaxed">
@@ -100,8 +102,14 @@ export default function About() {
               nuestros clientes.
             </p>
 
-            {/* Values */}
-            <div className="grid grid-cols-2 gap-4 pt-4">
+            {/* Values moved below images */}
+          </div>
+
+          {/* Image / Visual */}
+          <div className="relative flex flex-col items-center">
+            <Carousel />
+            {/* Valores en una sola línea, separados */}
+            <div className="flex flex-wrap justify-center items-center gap-6 pt-6 w-full max-w-xl">
               {['Tradición', 'Profesionalismo', 'Pasión', 'Excelencia'].map((value) => (
                 <div key={value} className="flex items-center gap-2 text-midnight-700">
                   <span className="w-2 h-2 rounded-full bg-gold-500" />
@@ -110,51 +118,22 @@ export default function About() {
               ))}
             </div>
           </div>
-
-          {/* Image / Visual */}
-          <div className="relative">
-            <div className="aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-midnight-800 to-midnight-900 relative">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="text-8xl mb-4">🎺</div>
-                  <p className="font-heading text-2xl text-gold-400 font-bold">
-                    Desde 2010
-                  </p>
-                  <p className="text-midnight-200 mt-2">
-                    Llevando la tradición mexicana a cada evento
-                  </p>
-                </div>
-              </div>
-              {/* Decorative border */}
-              <div className="absolute inset-4 border-2 border-gold-500/20 rounded-2xl" />
-            </div>
-            {/* Floating Accent Card */}
-            <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl p-5 animate-float hidden sm:block">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
-                  <Music className="w-6 h-6 text-midnight-900" />
-                </div>
-                <div>
-                  <div className="font-bold text-midnight-800">10 Músicos</div>
-                  <div className="text-xs text-midnight-400">Profesionales</div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-20">
-          {STATS.map((stat, index) => (
-            <StatCard key={stat.label} stat={stat} index={index} />
-          ))}
+        <div className="w-full flex justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-20 max-w-5xl w-full">
+            {STATS.map((stat, index) => (
+              <StatCard key={stat.label} stat={stat} index={index} />
+            ))}
+          </div>
         </div>
 
         {/* Testimonials */}
         <div>
           <SectionHeading
             title="Lo Que Dicen Nuestros Clientes"
-            subtitle="La satisfacción de nuestros clientes es nuestro mejor carta de presentación."
+            subtitle="La satisfacción de nuestros clientes es nuestra mejor carta de presentación."
           />
           <div className="grid md:grid-cols-3 gap-6">
             {TESTIMONIALS.map((testimonial, index) => (

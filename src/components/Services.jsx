@@ -1,7 +1,9 @@
+
 import { Check } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { SERVICES } from '../data/constants'
+import { useState, useEffect, useRef } from 'react'
 
 function ServiceCard({ service, index }) {
   const { ref, inView } = useScrollAnimation()
@@ -51,6 +53,23 @@ function ServiceCard({ service, index }) {
 export default function Services() {
   const { ref, inView } = useScrollAnimation()
 
+  // Carrusel simple de imágenes de servicios
+  const serviceImages = [
+    { src: '/images/Mariachi2.jpeg', alt: 'Mariachi 2' },
+    { src: '/images/Mariachi3.jpeg', alt: 'Mariachi 3' },
+    { src: '/images/Mariachi6.jpeg', alt: 'Mariachi 6' },
+    { src: '/images/Mariachi7.jpeg', alt: 'Mariachi 7' },
+    { src: '/images/Mariachi8.jpeg', alt: 'Mariachi 8' },
+  ];
+  const [current, setCurrent] = useState(0);
+  const intervalRef = useRef();
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setCurrent((prev) => (prev === serviceImages.length - 1 ? 0 : prev + 1));
+    }, 3000);
+    return () => clearInterval(intervalRef.current);
+  }, []);
+
   return (
     <section
       id="servicios"
@@ -61,10 +80,91 @@ export default function Services() {
       <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-burgundy-400/5 rounded-full blur-3xl" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Carrusel de imágenes de servicios */}
+        <div className="w-full flex flex-col items-center mb-12">
+          {/* Coverflow Carousel centrado con flex */}
+          <div className="flex items-center justify-center w-full max-w-2xl mx-auto h-64 sm:h-80 md:h-96 relative overflow-hidden">
+            {serviceImages.map((img, idx) => {
+              // Slide effect: center image is big, laterals slide in/out
+              let base = 'rounded-3xl shadow-lg border-2 border-gold-500/20 object-cover transition-all duration-700 ease-in-out absolute';
+              let style = { left: '50%', top: '50%', transform: '', zIndex: 0, opacity: 0, pointerEvents: 'none' };
+              let offset = idx - current;
+              // Circular array logic
+              if (offset > serviceImages.length / 2) offset -= serviceImages.length;
+              if (offset < -serviceImages.length / 2) offset += serviceImages.length;
+              if (offset === 0) {
+                style = {
+                  left: '50%',
+                  top: '50%',
+                  width: '20rem',
+                  height: '100%',
+                  transform: 'translate(-50%, -50%) scale(1)',
+                  zIndex: 20,
+                  opacity: 1,
+                  pointerEvents: 'auto',
+                  boxShadow: '0 8px 32px 0 rgba(0,0,0,0.25)'
+                };
+              } else if (offset === -1 || (current === 0 && idx === serviceImages.length - 1)) {
+                style = {
+                  left: '20%',
+                  top: '50%',
+                  width: '16rem',
+                  height: '80%',
+                  transform: 'translate(-50%, -50%) scale(0.9)',
+                  zIndex: 10,
+                  opacity: 0.6,
+                  pointerEvents: 'none',
+                };
+              } else if (offset === 1 || (current === serviceImages.length - 1 && idx === 0)) {
+                style = {
+                  left: '80%',
+                  top: '50%',
+                  width: '16rem',
+                  height: '80%',
+                  transform: 'translate(-50%, -50%) scale(0.9)',
+                  zIndex: 10,
+                  opacity: 0.6,
+                  pointerEvents: 'none',
+                };
+              } else {
+                style = {
+                  left: '50%',
+                  top: '50%',
+                  width: '16rem',
+                  height: '80%',
+                  transform: `translate(-50%, -50%) scale(0.7) translateX(${offset * 120}%)`,
+                  zIndex: 0,
+                  opacity: 0,
+                  pointerEvents: 'none',
+                };
+              }
+              return (
+                <img
+                  key={img.alt}
+                  src={img.src}
+                  alt={img.alt}
+                  className={base}
+                  style={style}
+                  loading="lazy"
+                />
+              );
+            })}
+          </div>
+          <div className="flex justify-center gap-2 mt-4">
+            {serviceImages.map((img, idx) => (
+              <button
+                key={img.alt}
+                className={`w-3 h-3 rounded-full border-2 ${current === idx ? 'bg-gold-500 border-gold-700' : 'bg-cream-200 border-gold-300'}`}
+                onClick={() => setCurrent(idx)}
+                aria-label={`Ver imagen ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </div>
         <div ref={ref} className={inView ? 'animate-fade-in-up' : 'opacity-0'}>
           <SectionHeading
             title="Nuestros Servicios"
-            subtitle="Ofrecemos experiencias musicales de primer nivel para todo tipo de eventos y celebraciones. Cada presentación es única y personalizada."
+            subtitle="Llevando alegria, tradición y sentimiento en cada nota, haciendo de cada momento una experiencia inolvidable, en todo tipo de eventos y misas panamericanas"
           />
         </div>
 
