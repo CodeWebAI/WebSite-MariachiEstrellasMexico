@@ -1,144 +1,245 @@
-import { useState } from 'react'
-import { X, ZoomIn } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { GALLERY_IMAGES } from '../data/constants'
 
+/**
+ * Gallery simplificado sin categorías
+ * Enfoque en mostrar todas las fotos sin necesidad de clasificarlas
+ * Ideal cuando el conjunto de fotos son eventos variados sin contexto específico
+ */
+
 const GALLERY_PHOTOS = GALLERY_IMAGES.map((img) => ({
   ...img,
-  src: `/images/gallery-${img.id}.png`,
+  src: `/images/gallery-${img.id}.jpeg`,
 }))
 
-const CATEGORIES = ['Todas', ...new Set(GALLERY_IMAGES.map((img) => img.category))]
+/**
+ * GalleryGrid - Componente que renderiza el grid de fotos con layout adaptativo
+ * Utiliza CSS Grid para máxima flexibilidad y performance
+ */
+function GalleryGrid({ photos, onPhotoClick }) {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+      {photos.map((photo, index) => (
+        <GalleryItem
+          key={`gallery-${photo.id}`}
+          photo={photo}
+          index={index}
+          onClick={onPhotoClick}
+        />
+      ))}
+    </div>
+  )
+}
 
+/**
+ * GalleryItem - Tarjeta individual de foto con efectos hover y animación
+ * Diseño minimalista enfocado en la imagen
+ */
 function GalleryItem({ photo, index, onClick }) {
   const { ref, inView } = useScrollAnimation()
+  const [isLoaded, setIsLoaded] = useState(false)
 
   return (
     <div
       ref={ref}
-      className={`group relative overflow-hidden rounded-2xl cursor-pointer ${
+      className={`group relative h-64 sm:h-72 overflow-hidden rounded-2xl cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ${
         inView ? 'animate-scale-in' : 'opacity-0'
-      } ${index === 0 || index === 3 ? 'sm:col-span-2 sm:row-span-2' : ''}`}
-      style={{ animationDelay: `${index * 80}ms` }}
+      }`}
+      style={{ animationDelay: `${index * 50}ms` }}
       onClick={() => onClick(photo)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          onClick(photo)
+        }
+      }}
+      aria-label={`Ver ${photo.alt}`}
     >
-      <div className={`relative w-full ${index === 0 || index === 3 ? 'aspect-square' : 'aspect-[4/3]'}`}>
+      {/* Imagen con skeleton loading */}
+      <div className="absolute inset-0 bg-linear-to-br from-midnight-800 to-midnight-900">
         <img
           src={photo.src}
           alt={photo.alt}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${
+            isLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
           loading="lazy"
+          onLoad={() => setIsLoaded(true)}
         />
+        {!isLoaded && (
+          <div className="absolute inset-0 bg-linear-to-r from-midnight-800 via-midnight-700 to-midnight-800 animate-pulse" />
+        )}
       </div>
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-midnight-900/80 via-midnight-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-5">
-        <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-          <span className="inline-block px-3 py-1 rounded-full bg-gold-500/20 text-gold-400 text-xs font-medium mb-2">
-            {photo.category}
-          </span>
-          <p className="text-white text-sm font-medium">{photo.alt}</p>
-        </div>
-        <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 scale-75 group-hover:scale-100">
-          <ZoomIn className="w-5 h-5 text-white" />
-        </div>
+
+      {/* Overlay gradiente - aparece en hover */}
+      <div className="absolute inset-0 bg-linear-to-t from-midnight-950/95 via-midnight-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+
+      {/* Contenido - solo descripción */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+        {/* Descripción */}
+        <p className="text-white font-semibold text-sm sm:text-base leading-tight drop-shadow-lg line-clamp-2">
+          {photo.alt}
+        </p>
+      </div>
+
+      {/* Botón de zoom - esquina superior derecha */}
+      <div className="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 shadow-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 scale-75 group-hover:scale-100 hover:bg-white/30">
+        <ZoomIn className="w-5 h-5 text-white" strokeWidth={2.5} />
       </div>
     </div>
   )
 }
 
-function Lightbox({ photo, onClose }) {
+/**
+ * Lightbox - Modal para ver fotos en tamaño completo
+ * Navegación con teclado y botones, cierre con ESC
+ */
+function Lightbox({ photo, photos, onClose, onNavigate }) {
   if (!photo) return null
+
+  const currentIndex = photos.findIndex((p) => p.id === photo.id)
+  const hasNext = currentIndex < photos.length - 1
+  const hasPrev = currentIndex > 0
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowRight' && hasNext) onNavigate(currentIndex + 1)
+      if (e.key === 'ArrowLeft' && hasPrev) onNavigate(currentIndex - 1)
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [currentIndex, hasNext, hasPrev, onClose, onNavigate])
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+      className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
       onClick={onClose}
     >
+      {/* Botón cerrar */}
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10 cursor-pointer"
+        className="absolute top-4 sm:top-6 right-4 sm:right-6 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10 cursor-pointer backdrop-blur-md border border-white/20"
         aria-label="Cerrar"
       >
-        <X className="w-6 h-6" />
+        <X className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
+
+      {/* Contenedor de imagen */}
       <div
-        className="relative max-w-5xl max-h-[85vh] animate-scale-in"
+        className="relative max-w-4xl max-h-[85vh] md:max-h-[90vh] animate-scale-in flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <img
-          src={photo.src}
-          alt={photo.alt}
-          className="w-full h-full object-contain rounded-2xl"
-        />
-        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent rounded-b-2xl">
-          <span className="inline-block px-3 py-1 rounded-full bg-gold-500/20 text-gold-400 text-xs font-medium mb-2">
-            {photo.category}
-          </span>
-          <p className="text-white font-medium">{photo.alt}</p>
+        {/* Imagen */}
+        <div className="flex-1 flex items-center justify-center overflow-hidden rounded-2xl">
+          <img
+            src={photo.src}
+            alt={photo.alt}
+            className="w-full h-full object-contain"
+          />
+        </div>
+
+        {/* Información */}
+        <div className="bg-linear-to-t from-black/80 to-transparent p-4 sm:p-6 rounded-b-2xl">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1">
+              <p className="text-white font-semibold text-sm sm:text-base">{photo.alt}</p>
+            </div>
+            <div className="text-white/60 text-xs sm:text-sm font-medium whitespace-nowrap">
+              {currentIndex + 1} / {photos.length}
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Navegación */}
+      {hasPrev && (
+        <button
+          onClick={() => onNavigate(currentIndex - 1)}
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors backdrop-blur-md border border-white/20"
+          aria-label="Foto anterior"
+        >
+          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+        </button>
+      )}
+
+      {hasNext && (
+        <button
+          onClick={() => onNavigate(currentIndex + 1)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors backdrop-blur-md border border-white/20"
+          aria-label="Siguiente foto"
+        >
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+        </button>
+      )}
     </div>
   )
 }
 
+/**
+ * Componente principal Gallery
+ * Gestiona estado de foto seleccionada y navegación
+ * Diseño minimalista sin categorías para máxima flexibilidad
+ */
 export default function Gallery() {
-  const [activeCategory, setActiveCategory] = useState('Todas')
   const [selectedPhoto, setSelectedPhoto] = useState(null)
   const { ref, inView } = useScrollAnimation()
 
-  const filteredPhotos =
-    activeCategory === 'Todas'
-      ? GALLERY_PHOTOS
-      : GALLERY_PHOTOS.filter((p) => p.category === activeCategory)
+  // Manejador para cambiar foto en lightbox
+  const handlePhotoNavigation = (index) => {
+    setSelectedPhoto(GALLERY_PHOTOS[index])
+  }
 
   return (
-    <section id="galeria" className="py-20 md:py-28 bg-gradient-dark relative overflow-hidden">
-      {/* Decorative */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-burgundy-500/5 rounded-full blur-3xl" />
+    <section
+      id="galeria"
+      className="py-16 sm:py-20 md:py-28 bg-gradient-dark relative overflow-hidden"
+    >
+      {/* Elementos decorativos de fondo */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-burgundy-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Encabezado con animación */}
         <div ref={ref} className={inView ? 'animate-fade-in-up' : 'opacity-0'}>
           <SectionHeading
             title="Nuestra Galería"
-            subtitle="Momentos inolvidables capturados en nuestras presentaciones. Cada evento es una historia que vale la pena contar."
+            subtitle="Momentos inolvidables capturados en nuestras presentaciones. Cada foto es un testimonio del profesionalismo y la pasión que llevamos a cada evento."
             dark
           />
         </div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10">
-          {CATEGORIES.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
-                activeCategory === category
-                  ? 'bg-gold-500 text-midnight-900 shadow-lg shadow-gold-500/25'
-                  : 'bg-white/5 text-midnight-200 hover:bg-white/10 hover:text-gold-400 border border-white/10'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
+        {/* Grid de galería */}
+        <div className="max-w-6xl mx-auto mt-12 sm:mt-16">
+          <GalleryGrid photos={GALLERY_PHOTOS} onPhotoClick={setSelectedPhoto} />
         </div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-          {filteredPhotos.map((photo, index) => (
-            <GalleryItem
-              key={photo.id}
-              photo={photo}
-              index={index}
-              onClick={setSelectedPhoto}
-            />
-          ))}
+        {/* CTA - Llamada a la acción */}
+        <div className="mt-16 sm:mt-20 text-center">
+          <p className="text-midnight-200 text-sm sm:text-base mb-6">
+            ¿Quieres que el Mariachi Estrellas de México sea parte de tu próximo evento?
+          </p>
+          <a
+            href="#contacto"
+            className="inline-block px-8 py-3 rounded-full bg-linear-to-r from-gold-500 to-gold-600 text-midnight-900 font-bold hover:shadow-lg hover:shadow-gold-500/50 transition-all duration-300 hover:scale-105"
+          >
+            Contratar Ahora
+          </a>
         </div>
       </div>
 
-      {/* Lightbox */}
-      <Lightbox photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
+      {/* Lightbox modal */}
+      <Lightbox
+        photo={selectedPhoto}
+        photos={GALLERY_PHOTOS}
+        onClose={() => setSelectedPhoto(null)}
+        onNavigate={handlePhotoNavigation}
+      />
     </section>
   )
 }

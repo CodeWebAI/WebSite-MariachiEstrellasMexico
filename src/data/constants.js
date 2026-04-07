@@ -99,8 +99,8 @@ export const GALLERY_IMAGES = [
   },
   {
     id: 2,
-    alt: 'Serenata romántica nocturna',
-    category: 'Serenatas',
+    alt: 'Presentación en cumpleaños',
+    category: 'Cumpleaños',
   },
   {
     id: 3,
@@ -122,6 +122,107 @@ export const GALLERY_IMAGES = [
     alt: 'Fiesta privada',
     category: 'Fiestas',
   },
+  {
+    id: 7,
+    alt: 'Mariachi en presentación callejera',
+    category: 'General',
+  },
+  {
+    id: 8,
+    alt: 'Selfie del grupo antes del evento',
+    category: 'General',
+  },
+  {
+    id: 9,
+    alt: 'Integrantes del mariachi posando',
+    category: 'General',
+  },
+  {
+    id: 10,
+    alt: 'Presentación en salón de eventos',
+    category: 'General',
+  },
+  {
+    id: 11,
+    alt: 'Grupo frente a decorado con globos',
+    category: 'General',
+  },
+  {
+    id: 12,
+    alt: 'Mariachi con familia en la calle',
+    category: 'General',
+  },
+  {
+    id: 13,
+    alt: 'Ensayo y puesta a punto del grupo',
+    category: 'General',
+  },
+  {
+    id: 14,
+    alt: 'Foto grupal en exterior de día',
+    category: 'General',
+  },
+  {
+    id: 15,
+    alt: 'Integrantes con traje de gala posando',
+    category: 'General',
+  },
+  {
+    id: 16,
+    alt: 'Mariachi celebrando con pastel y flores',
+    category: 'General',
+  },
+  {
+    id: 17,
+    alt: 'Mariachi celebrando con pastel y flores',
+    category: 'General',
+  },
+  {
+    id: 18,
+    alt: 'Mariachi celebrando con pastel y flores',
+    category: 'General',
+  },
+  {
+    id: 19,
+    alt: 'Mariachi celebrando con pastel y flores',
+    category: 'General',
+  },
+  {
+    id: 20,
+    alt: 'Mariachi celebrando con pastel y flores',
+    category: 'General',
+  },
+  {
+    id: 21,
+    alt: 'Mariachi celebrando con pastel y flores',
+    category: 'General',
+  },
+  {
+    id: 22,
+    alt: 'Mariachi celebrando con pastel y flores',
+    category: 'General',
+  },
+  {
+    id: 23,
+    alt: 'Mariachi celebrando con pastel y flores',
+    category: 'General',
+  },
+  {
+    id: 24,
+    alt: 'Mariachi celebrando con pastel y flores',
+    category: 'General',
+  },
+  {
+    id: 25,
+    alt: 'Mariachi celebrando con pastel y flores',
+    category: 'General',
+  },
+  {
+    id: 26,
+    alt: 'Mariachi celebrando con pastel y flores',
+    category: 'General',
+  },
+  
 ]
 
 export const VIDEOS = [
@@ -146,15 +247,15 @@ export const VIDEOS = [
 ]
 
 export const CONTACT_INFO = {
-  phone: '+52 555 123 4567',
-  whatsapp: '+52 555 123 4567',
-  email: 'contacto@mariachialma.mx',
+  phone: '5624236534',
+  whatsapp: '+52 5624236534',
+  email: 'bautistahernandezangeluriel3@gmail.com',
   address: 'Ciudad de México, CDMX',
   schedule: 'Lunes a Domingo: 8:00 AM - 12:00 AM',
   social: {
     facebook: 'https://facebook.com',
     instagram: 'https://instagram.com',
-    youtube: 'https://youtube.com',
+    youtube: 'https://youtube.com/@mariachidiamante.01?si=JHpDFpXyYhT4LUAI',
     tiktok: 'https://tiktok.com',
   },
 }
