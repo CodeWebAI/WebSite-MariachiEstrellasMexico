@@ -7,4 +7,10 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    // Configuraciones específicas para túneles
+    allowedHosts: ['.tunnelmole.net', '.ngrok-free.app'],
+    host: true,
+    port: 5173,
+  }
 })
