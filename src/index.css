@@ -5,16 +5,16 @@
   --font-body: "Inter", sans-serif;
   --font-accent: "Cormorant Garamond", serif;
 
-  --color-gold-50: #fefce8;
-  --color-gold-100: #fef9c3;
-  --color-gold-200: #fef08a;
-  --color-gold-300: #fde047;
-  --color-gold-400: #facc15;
-  --color-gold-500: #d4a012;
-  --color-gold-600: #b8860b;
-  --color-gold-700: #92650a;
-  --color-gold-800: #6b4a08;
-  --color-gold-900: #4a3206;
+  --color-gold-50: #fffee6;
+  --color-gold-100: #fffcc2;
+  --color-gold-200: #fff58f;
+  --color-gold-300: #ffeb57;
+  --color-gold-400: #ffde26; /* Very bright gold */
+  --color-gold-500: #efb810; /* Solid rich gold */
+  --color-gold-600: #c99200; /* Darker gold */
+  --color-gold-700: #996900;
+  --color-gold-800: #704700;
+  --color-gold-900: #4a2d00;
 
   --color-midnight-50: #f0f1f5;
   --color-midnight-100: #d4d7e0;
