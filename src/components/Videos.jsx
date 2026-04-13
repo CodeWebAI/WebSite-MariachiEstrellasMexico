@@ -3,6 +3,7 @@ import { Play } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { VIDEOS as VIDEO_DATA } from '../data/videos'
+import { CONTACT_INFO } from '../data/constants'
 
 function VideoCard({ video, index }) {
   const [isPlaying, setIsPlaying] = useState(false)
@@ -31,7 +32,7 @@ function VideoCard({ video, index }) {
           >
             {/* Thumbnail */}
             <img
-              src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
+              src={`https://img.youtube.com/vi/${video.embedId}/hqdefault.jpg`}
               alt={video.title}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
@@ -82,7 +83,7 @@ export default function Videos() {
         {/* More Videos CTA */}
         <div className="text-center mt-12">
           <a
-            href={`https://www.youtube.com`}
+            href={CONTACT_INFO.social.youtube}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 border-2 border-midnight-300 text-midnight-700 font-semibold rounded-full hover:border-gold-500 hover:text-gold-600 transition-all duration-300 hover:-translate-y-0.5"

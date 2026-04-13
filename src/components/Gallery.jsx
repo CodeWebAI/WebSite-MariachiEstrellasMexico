@@ -39,15 +39,9 @@ function GalleryGrid({ photos, onPhotoClick }) {
  * Diseño minimalista enfocado en la imagen
  */
 function GalleryItem({ photo, index, onClick }) {
-  const { ref, inView } = useScrollAnimation()
-
   return (
     <div
-      ref={ref}
-      className={`group relative h-64 sm:h-72 overflow-hidden rounded-2xl cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-700 ${
-        inView ? 'animate-scale-in' : 'opacity-0'
-      }`}
-      style={{ animationDelay: `${index * 50}ms` }}
+      className="group relative h-64 sm:h-72 overflow-hidden rounded-2xl cursor-pointer shadow-lg hover:shadow-2xl transition-shadow duration-700"
       onClick={() => onClick(photo)}
       role="button"
       tabIndex={0}
