@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Play } from 'lucide-react'
 import SectionHeading from './ui/SectionHeading'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
-import { VIDEOS as VIDEO_DATA } from '../data/constants'
+import { VIDEOS as VIDEO_DATA } from '../data/videos'
 
 function VideoCard({ video, index }) {
   const [isPlaying, setIsPlaying] = useState(false)

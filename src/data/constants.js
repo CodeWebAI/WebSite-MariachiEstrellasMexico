@@ -222,29 +222,9 @@ export const GALLERY_IMAGES = [
     alt: 'Mariachi celebrando con pastel y flores',
     category: 'General',
   },
-  
+
 ]
 
-export const VIDEOS = [
-  {
-    id: 1,
-    title: 'Cielito Lindo - En Vivo',
-    description: 'Presentación en vivo de uno de los clásicos más queridos de la música mexicana.',
-    embedId: 'dQw4w9WgXcQ',
-  },
-  {
-    id: 2,
-    title: 'El Rey - Concierto Especial',
-    description: 'Interpretación del icónico tema de José Alfredo Jiménez en evento de gala.',
-    embedId: 'dQw4w9WgXcQ',
-  },
-  {
-    id: 3,
-    title: 'Serenata Romántica - Highlights',
-    description: 'Los mejores momentos de nuestras serenatas más emotivas.',
-    embedId: 'dQw4w9WgXcQ',
-  },
-]
 
 export const CONTACT_INFO = {
   phone: '5624236534',
@@ -253,9 +233,9 @@ export const CONTACT_INFO = {
   address: 'Ciudad de México, CDMX',
   schedule: 'Lunes a Domingo: 8:00 AM - 12:00 AM',
   social: {
-    facebook: 'https://facebook.com',
+    facebook: 'https://www.facebook.com/profile.php?id=61572127441800',
     instagram: 'https://instagram.com',
     youtube: 'https://youtube.com/@mariachidiamante.01?si=JHpDFpXyYhT4LUAI',
-    tiktok: 'https://tiktok.com',
+    tiktok: 'https://www.tiktok.com/@mariachiestrellascdmx',
   },
 }

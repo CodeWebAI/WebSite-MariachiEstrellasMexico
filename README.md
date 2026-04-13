@@ -1,16 +1,33 @@
-# React + Vite
+# Mariachi Estrellas de México 🎺
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sitio web oficial y landing page promocional para la agrupación "Mariachi Estrellas de México". El diseño está enfocado en una experiencia visual elegante y premium para incentivar reservaciones directas.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologías Principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React.js** (v19)
+- **Vite** (Build Tool ultra rápido)
+- **Tailwind CSS v4** (Utilidades y animaciones)
+- **Lucide React** (Iconografía y vectores)
 
-## React Compiler
+## 📦 Instalación y Desarrollo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Instala las dependencias (se recomienda `pnpm`):
+   ```bash
+   pnpm install
+   ```
 
-## Expanding the ESLint configuration
+2. Inicia el servidor de desarrollo local:
+   ```bash
+   pnpm run dev
+   ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3. Abre `http://localhost:5173` en tu navegador para ver la página y editarla en tiempo real.
+
+## 🛠 Estructura del Código
+
+- `/src/components`: Componentes visuales organizados por sección (Navbar, Hero, Gallery, Contact, etc.).
+- `/src/data`: Datos del sitio (información de contacto, portfolio de imágenes en `constants.js` y enlaces en `videos.js`). Ideal para el mantenimiento futuro.
+- `/src/index.css`: Declaración de variables globales como la paleta de colores corporativa (tonos "midnight" y "gold").
+
+---
+*Proyecto optimizado para SEO, responsividad en móviles y animaciones fluidas.*

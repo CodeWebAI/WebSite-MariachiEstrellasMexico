@@ -32,6 +32,12 @@ const Youtube = ({ className }) => (
   </svg>
 )
 
+const Tiktok = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v7.2c0 1.96-.65 3.9-1.87 5.4-1.22 1.48-2.9 2.45-4.82 2.75-1.92.31-3.92-.01-5.6-1.03-1.68-1.02-2.95-2.61-3.52-4.48-.56-1.88-.42-3.96.4-5.74.82-1.78 2.22-3.23 3.98-4.07 1.76-.84 3.82-1.04 5.72-.56v4.06c-.84-.28-1.76-.32-2.62-.12-.86.2-1.66.65-2.28 1.28-.62.63-1.03 1.44-1.19 2.32-.15.88-.02 1.78.36 2.58.38.8.99 1.46 1.74 1.9.75.44 1.62.62 2.48.51.86-.11 1.68-.45 2.34-.95.66-.5 1.15-1.17 1.42-2.02.27-.84.3-1.74.08-2.58V.02h3.28z" />
+  </svg>
+)
+
 function ContactInfoCard({ icon: Icon, label, value, href }) {
   const content = (
     <div className="flex items-start gap-4 group">
@@ -417,6 +423,7 @@ export default function Contact() {
                   { icon: Facebook, href: CONTACT_INFO.social.facebook, label: 'Facebook' },
                   { icon: Instagram, href: CONTACT_INFO.social.instagram, label: 'Instagram' },
                   { icon: Youtube, href: CONTACT_INFO.social.youtube, label: 'YouTube' },
+                  { icon: Tiktok, href: CONTACT_INFO.social.tiktok, label: 'TikTok' },
                 ].map(({ icon: SocialIcon, href, label }) => (
                   <a
                     key={label}
@@ -447,9 +454,8 @@ export default function Contact() {
           {/* Contact Form */}
           <div
             ref={formRef}
-            className={`lg:col-span-3 p-6 sm:p-8 rounded-3xl bg-white shadow-xl shadow-midnight-900/5 border border-midnight-100/50 ${
-              formInView ? 'animate-fade-in-up animation-delay-200' : 'opacity-0'
-            }`}
+            className={`lg:col-span-3 p-6 sm:p-8 rounded-3xl bg-white shadow-xl shadow-midnight-900/5 border border-midnight-100/50 ${formInView ? 'animate-fade-in-up animation-delay-200' : 'opacity-0'
+              }`}
           >
             <h3 className="font-heading text-2xl font-bold text-midnight-800 mb-2">
               Solicita tu Cotización
