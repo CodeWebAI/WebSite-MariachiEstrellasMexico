@@ -21,7 +21,7 @@ export default function Hero() {
       {/* Decorative Elements */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-gold-500/10 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-burgundy-500/8 rounded-full blur-3xl animate-float animation-delay-500" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-400/5 rounded-full blur-3xl" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-gold-400/5 rounded-full blur-3xl" />
 
       {/* Decorative Musical Notes */}
       <div className="absolute top-32 right-[15%] text-gold-500/20 text-6xl animate-float animation-delay-200 hidden md:block">

@@ -41,7 +41,7 @@ const Tiktok = ({ className }) => (
 function ContactInfoCard({ icon: Icon, label, value, href }) {
   const content = (
     <div className="flex items-start gap-4 group">
-      <div className="w-12 h-12 rounded-xl bg-gold-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-gold-500 transition-colors duration-300">
+      <div className="w-12 h-12 rounded-xl bg-gold-500/10 flex items-center justify-center shrink-0 group-hover:bg-gold-500 transition-colors duration-300">
         <Icon className="w-5 h-5 text-gold-500 group-hover:text-midnight-900 transition-colors duration-300" />
       </div>
       <div>
@@ -263,7 +263,7 @@ ${formData.message}`
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-4 bg-gradient-to-r from-gold-500 to-gold-600 text-midnight-900 font-bold rounded-xl hover:from-gold-400 hover:to-gold-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg hover:shadow-xl hover:shadow-gold-500/25 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2 text-base cursor-pointer"
+          className="w-full py-4 bg-linear-to-r from-gold-500 to-gold-600 text-midnight-900 font-bold rounded-xl hover:from-gold-400 hover:to-gold-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg hover:shadow-xl hover:shadow-gold-500/25 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2 text-base cursor-pointer"
         >
           {isLoading ? (
             <>
@@ -281,7 +281,7 @@ ${formData.message}`
         {/* Success Message */}
         {isSubmitted && (
           <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 animate-fade-in-up">
-            <CheckCircle className="w-5 h-5 flex-shrink-0" />
+            <CheckCircle className="w-5 h-5 shrink-0" />
             <p className="text-sm font-medium">
               ¡Solicitud enviada correctamente! Nos pondremos en contacto contigo pronto.
             </p>
@@ -365,7 +365,7 @@ export default function Contact() {
   return (
     <section
       id="contacto"
-      className="py-20 md:py-28 bg-gradient-to-b from-white to-cream-50 relative overflow-hidden"
+      className="py-20 md:py-28 bg-linear-to-b from-white to-cream-50 relative overflow-hidden"
     >
       {/* Decorative */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-gold-400/5 rounded-full blur-3xl -translate-x-1/2" />

@@ -15,7 +15,7 @@ export default function Button({
 
   const variants = {
     primary:
-      'bg-gradient-to-r from-gold-500 to-gold-600 text-midnight-900 hover:from-gold-400 hover:to-gold-500 shadow-lg hover:shadow-xl hover:shadow-gold-500/25 hover:-translate-y-0.5 active:translate-y-0',
+      'bg-linear-to-r from-gold-500 to-gold-600 text-midnight-900 hover:from-gold-400 hover:to-gold-500 shadow-lg hover:shadow-xl hover:shadow-gold-500/25 hover:-translate-y-0.5 active:translate-y-0',
     secondary:
       'bg-transparent border-2 border-gold-500 text-gold-400 hover:bg-gold-500 hover:text-midnight-900 hover:-translate-y-0.5 active:translate-y-0',
     outline:

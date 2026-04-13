@@ -61,7 +61,7 @@ export default function Navbar() {
             onClick={() => handleNavClick('inicio')}
             className="flex items-center gap-2 cursor-pointer group"
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <div className="w-10 h-10 rounded-full bg-linear-to-br from-gold-400 to-gold-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <Music className="w-5 h-5 text-midnight-900" />
             </div>
             <div className="hidden sm:block">
@@ -95,9 +95,9 @@ export default function Navbar() {
             href="https://wa.me/525624236534?text=Hola%2C%20me%20gustar%C3%ADa%20solicitar%20una%20cotizaci%C3%B3n"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-gold-500 to-gold-600 text-midnight-900 font-semibold text-sm rounded-full hover:from-gold-400 hover:to-gold-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg hover:shadow-gold-500/25"
+            className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-gold-500 to-gold-600 text-midnight-900 font-semibold text-sm rounded-full hover:from-gold-400 hover:to-gold-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg hover:shadow-gold-500/25"
           >
-            <WhatsAppIcon className="w-[18px] h-[18px]" />
+            <WhatsAppIcon className="w-4.5 h-4.5" />
             Contáctanos
           </a>
 
@@ -114,7 +114,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       <div
-        className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+        className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-125 opacity-100' : 'max-h-0 opacity-0'
           }`}
       >
         <div className="px-4 pt-4 pb-6 bg-midnight-900/98 backdrop-blur-xl border-t border-white/5 mt-3">
@@ -136,9 +136,9 @@ export default function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsOpen(false)}
-              className="mt-3 inline-flex items-center justify-center gap-2 px-5 py-3 bg-gradient-to-r from-gold-500 to-gold-600 text-midnight-900 font-semibold rounded-full hover:from-gold-400 hover:to-gold-500 transition-all duration-300"
+              className="mt-3 inline-flex items-center justify-center gap-2 px-5 py-3 bg-linear-to-r from-gold-500 to-gold-600 text-midnight-900 font-semibold rounded-full hover:from-gold-400 hover:to-gold-500 transition-all duration-300"
             >
-              <WhatsAppIcon className="w-5 h-5 flex-shrink-0" />
+              <WhatsAppIcon className="w-5 h-5 shrink-0" />
               Contáctanos
             </a>
           </div>

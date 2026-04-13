@@ -18,7 +18,7 @@ function ServiceCard({ service, index }) {
       style={{ animationDelay: `${index * 100}ms` }}
     >
       {/* Icon */}
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-gold-500/20">
+      <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-gold-400 to-gold-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-gold-500/20">
         <Icon className="w-7 h-7 text-midnight-900" />
       </div>
 
@@ -36,7 +36,7 @@ function ServiceCard({ service, index }) {
       <ul className="space-y-2">
         {service.features.map((feature) => (
           <li key={feature} className="flex items-center gap-2 text-sm text-midnight-600">
-            <div className="w-5 h-5 rounded-full bg-gold-100 flex items-center justify-center flex-shrink-0">
+            <div className="w-5 h-5 rounded-full bg-gold-100 flex items-center justify-center shrink-0">
               <Check className="w-3 h-3 text-gold-600" />
             </div>
             {feature}
@@ -45,7 +45,7 @@ function ServiceCard({ service, index }) {
       </ul>
 
       {/* Hover gradient accent */}
-      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-gold-400 to-gold-600 rounded-b-3xl scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+      <div className="absolute inset-x-0 bottom-0 h-1 bg-linear-to-r from-gold-400 to-gold-600 rounded-b-3xl scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
     </div>
   )
 }
@@ -73,7 +73,7 @@ export default function Services() {
   return (
     <section
       id="servicios"
-      className="py-20 md:py-28 bg-gradient-to-b from-cream-50 to-white relative overflow-hidden"
+      className="py-20 md:py-28 bg-linear-to-b from-cream-50 to-white relative overflow-hidden"
     >
       {/* Background decoration */}
       <div className="absolute top-1/4 right-0 w-80 h-80 bg-gold-400/5 rounded-full blur-3xl" />
@@ -85,66 +85,29 @@ export default function Services() {
           {/* Coverflow Carousel centrado con flex */}
           <div className="flex items-center justify-center w-full max-w-2xl mx-auto h-64 sm:h-80 md:h-96 relative overflow-hidden">
             {serviceImages.map((img, idx) => {
-              // Slide effect: center image is big, laterals slide in/out
-              let base = 'rounded-3xl shadow-lg border-2 border-gold-500/20 object-cover transition-all duration-700 ease-in-out absolute';
-              let style = { left: '50%', top: '50%', transform: '', zIndex: 0, opacity: 0, pointerEvents: 'none' };
+              const base = 'rounded-3xl shadow-lg border-2 border-gold-500/20 object-cover transition-all duration-700 ease-in-out absolute';
+              const len = serviceImages.length;
               let offset = idx - current;
-              // Circular array logic
-              if (offset > serviceImages.length / 2) offset -= serviceImages.length;
-              if (offset < -serviceImages.length / 2) offset += serviceImages.length;
+              if (offset > len / 2) offset -= len;
+              if (offset < -len / 2) offset += len;
+
+              let classes = '';
               if (offset === 0) {
-                style = {
-                  left: '50%',
-                  top: '50%',
-                  width: '20rem',
-                  height: '100%',
-                  transform: 'translate(-50%, -50%) scale(1)',
-                  zIndex: 20,
-                  opacity: 1,
-                  pointerEvents: 'auto',
-                  boxShadow: '0 8px 32px 0 rgba(0,0,0,0.25)'
-                };
-              } else if (offset === -1 || (current === 0 && idx === serviceImages.length - 1)) {
-                style = {
-                  left: '20%',
-                  top: '50%',
-                  width: '16rem',
-                  height: '80%',
-                  transform: 'translate(-50%, -50%) scale(0.9)',
-                  zIndex: 10,
-                  opacity: 0.6,
-                  pointerEvents: 'none',
-                };
-              } else if (offset === 1 || (current === serviceImages.length - 1 && idx === 0)) {
-                style = {
-                  left: '80%',
-                  top: '50%',
-                  width: '16rem',
-                  height: '80%',
-                  transform: 'translate(-50%, -50%) scale(0.9)',
-                  zIndex: 10,
-                  opacity: 0.6,
-                  pointerEvents: 'none',
-                };
+                classes = 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 sm:w-80 md:w-96 h-full z-20 opacity-100 pointer-events-auto';
+              } else if (offset === -1 || (current === 0 && idx === len - 1)) {
+                classes = 'left-1/4 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 sm:w-64 md:w-72 h-full z-10 opacity-60 pointer-events-none scale-95';
+              } else if (offset === 1 || (current === len - 1 && idx === 0)) {
+                classes = 'left-3/4 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 sm:w-64 md:w-72 h-full z-10 opacity-60 pointer-events-none scale-95';
               } else {
-                style = {
-                  left: '50%',
-                  top: '50%',
-                  width: '16rem',
-                  height: '80%',
-                  transform: `translate(-50%, -50%) scale(0.7) translateX(${offset * 120}%)`,
-                  zIndex: 0,
-                  opacity: 0,
-                  pointerEvents: 'none',
-                };
+                classes = 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 sm:w-64 md:w-72 h-full z-0 opacity-0 pointer-events-none scale-75';
               }
+
               return (
                 <img
                   key={img.alt}
                   src={img.src}
                   alt={img.alt}
-                  className={base}
-                  style={style}
+                  className={`${base} ${classes}`}
                   loading="lazy"
                 />
               );
@@ -181,7 +144,7 @@ export default function Services() {
           </p>
           <a
             href="#contacto"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-gold-500 to-gold-600 text-midnight-900 font-semibold text-lg rounded-full hover:from-gold-400 hover:to-gold-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg hover:shadow-xl hover:shadow-gold-500/25"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-linear-to-r from-gold-500 to-gold-600 text-midnight-900 font-semibold text-lg rounded-full hover:from-gold-400 hover:to-gold-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg hover:shadow-xl hover:shadow-gold-500/25"
           >
             Solicitar Cotización
           </a>

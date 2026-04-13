@@ -18,7 +18,7 @@ function StatCard({ stat, index }) {
       }`}
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
+      <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-linear-to-br from-gold-400 to-gold-600 flex items-center justify-center">
         <Icon className="w-6 h-6 text-midnight-900" />
       </div>
       <div className="text-3xl sm:text-4xl font-bold text-midnight-800 font-heading">
@@ -49,7 +49,7 @@ function TestimonialCard({ testimonial, index }) {
         &ldquo;{testimonial.text}&rdquo;
       </p>
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-burgundy-500 flex items-center justify-center text-white font-bold text-sm">
+        <div className="w-10 h-10 rounded-full bg-linear-to-br from-gold-400 to-burgundy-500 flex items-center justify-center text-white font-bold text-sm">
           {testimonial.name.charAt(0)}
         </div>
         <div>
