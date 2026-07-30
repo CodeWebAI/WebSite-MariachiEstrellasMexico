@@ -131,7 +131,7 @@ ${formData.message}`
     // Trigger Google Ads lead conversion tracking
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'conversion', {
-        'send_to': 'AW-18346957748/xVjJCLLY3tgcELS3waxE'
+        'send_to': 'AW-18346957748/9e2NCPWSktkcELS3waxE'
       });
     }
 
@@ -154,7 +154,7 @@ ${formData.message}`
     // Trigger Google Ads lead conversion tracking
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'conversion', {
-        'send_to': 'AW-18346957748/xVjJCLLY3tgcELS3waxE'
+        'send_to': 'AW-18346957748/9e2NCPWSktkcELS3waxE'
       });
     }
 
