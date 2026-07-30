@@ -128,6 +128,13 @@ ${formData.message}`
     const emailBody = encodeURIComponent(message)
     const emailLink = `mailto:${CONTACT_INFO.email}?subject=${encodeURIComponent(subject)}&body=${emailBody}`
 
+    // Trigger Google Ads lead conversion tracking
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-18346957748/xVjJCLLY3tgcELS3waxE'
+      });
+    }
+
     window.location.href = emailLink
     setTimeout(() => {
       setIsLoading(false)
@@ -143,6 +150,13 @@ ${formData.message}`
     const message = buildMessage()
     const phoneNumber = CONTACT_INFO.whatsapp.replace(/\s+/g, '')
     const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+
+    // Trigger Google Ads lead conversion tracking
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-18346957748/xVjJCLLY3tgcELS3waxE'
+      });
+    }
 
     window.open(whatsappLink, '_blank')
     setTimeout(() => {
