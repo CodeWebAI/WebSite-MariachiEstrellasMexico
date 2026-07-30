@@ -116,7 +116,7 @@ function ContactForm() {
 *Teléfono:* ${formData.phone}
 *Tipo de Evento:* ${eventTypeLabel || 'No especificado'}
 *Fecha del Evento:* ${dateFormatted}
-
+ 
 *Detalles:*
 ${formData.message}`
   }
